@@ -10,6 +10,7 @@
 
     # prefix for version tags (default: v)
     vPrefix = true
+	releaseBranch = main
 
     # release command to run after tagging
     # command = make release
