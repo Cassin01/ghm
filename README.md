@@ -129,3 +129,7 @@ make help
 ## License
 
 MIT License
+
+## Credits
+
+[x-motemen/ghq](https://github.com/x-motemen/ghq)
