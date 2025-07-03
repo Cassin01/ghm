@@ -93,3 +93,21 @@ jobs:
           checksums.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Update Homebrew Formula
+      run: |
+        if [ -z "${{ secrets.HOMEBREW_TAP_TOKEN }}" ]; then
+          echo "⚠️ HOMEBREW_TAP_TOKEN not set. Skipping Homebrew formula update."
+          echo "ℹ️ To enable automatic Homebrew updates, please set up HOMEBREW_TAP_TOKEN secret."
+          echo "ℹ️ See HOMEBREW_SETUP.md for detailed instructions."
+          exit 0
+        fi
+        
+        echo "🍺 Updating Homebrew formula..."
+        chmod +x scripts/update-homebrew.sh
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        ./scripts/update-homebrew.sh ${{ steps.tag.outputs.tag }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+      if: ${{ !contains(steps.tag.outputs.tag, '-') }}

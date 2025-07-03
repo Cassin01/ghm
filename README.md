@@ -5,10 +5,25 @@
 ## Features
 
 - Manage multiple instances of the same repository
-- Instances are distinguished by numbers (`.1`, `.2`, `.3`...)
+- Instances are distinguished by numbers (`_1`, `_2`, `_3`...)
 - `ghq`-compatible basic functionality
 
 ## Installation
+
+### Using Homebrew
+
+```bash
+brew tap Cassin01/ghm
+brew install ghm
+```
+
+> **Note**: Homebrew formula updates are automated via GitHub Actions. For maintainers: see `HOMEBREW_SETUP.md` for automation setup.
+
+### Using Go Install
+
+```bash
+go install github.com/Cassin01/ghm/cmd/ghm@latest
+```
 
 ### From Source
 
@@ -62,7 +77,7 @@ ghm root
 ghm remove github.com/user/repo
 
 # Remove specific instance
-ghm remove github.com/user/repo.1
+ghm remove github.com/user/repo_1
 ```
 
 ## Directory Structure
