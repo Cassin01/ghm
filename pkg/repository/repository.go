@@ -112,7 +112,7 @@ func (r *Repository) Path() string {
 	if r.Instance == 0 {
 		return filepath.Join(r.Host, r.Owner, r.Name)
 	}
-	return filepath.Join(r.Host, r.Owner, fmt.Sprintf("%s.%d", r.Name, r.Instance))
+	return filepath.Join(r.Host, r.Owner, fmt.Sprintf("%s_%d", r.Name, r.Instance))
 }
 
 func (r *Repository) FullPath(root string) string {

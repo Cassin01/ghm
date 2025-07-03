@@ -130,7 +130,7 @@ func TestRepository_Path(t *testing.T) {
 				Name:     "repo",
 				Instance: 1,
 			},
-			expected: filepath.Join("github.com", "user", "repo.1"),
+			expected: filepath.Join("github.com", "user", "repo_1"),
 		},
 		{
 			name: "Instance 2",
@@ -140,7 +140,7 @@ func TestRepository_Path(t *testing.T) {
 				Name:     "repo",
 				Instance: 2,
 			},
-			expected: filepath.Join("github.com", "user", "repo.2"),
+			expected: filepath.Join("github.com", "user", "repo_2"),
 		},
 	}
 

@@ -20,17 +20,17 @@ func TestParseInstanceFromPath(t *testing.T) {
 		},
 		{
 			name:     "Instance 1",
-			path:     "github.com/user/repo.1",
+			path:     "github.com/user/repo_1",
 			expected: 1,
 		},
 		{
 			name:     "Instance 2",
-			path:     "github.com/user/repo.2",
+			path:     "github.com/user/repo_2",
 			expected: 2,
 		},
 		{
 			name:     "Instance 10",
-			path:     "github.com/user/repo.10",
+			path:     "github.com/user/repo_10",
 			expected: 10,
 		},
 		{
@@ -164,8 +164,8 @@ func TestFindNextInstance(t *testing.T) {
 
 	t.Run("With existing numbered instances", func(t *testing.T) {
 		// Create instance 1 and 2
-		instance1Dir := filepath.Join(baseDir, name+".1")
-		instance2Dir := filepath.Join(baseDir, name+".2")
+		instance1Dir := filepath.Join(baseDir, name+"_1")
+		instance2Dir := filepath.Join(baseDir, name+"_2")
 		_ = os.MkdirAll(instance1Dir, 0755)
 		_ = os.MkdirAll(instance2Dir, 0755)
 

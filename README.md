@@ -72,8 +72,8 @@ $GHM_ROOT/
 ├── github.com/
 │   └── user/
 │       ├── repo/          # Main instance
-│       ├── repo.1/        # First instance
-│       ├── repo.2/        # Second instance
+│       ├── repo_1/        # First instance
+│       ├── repo_2/        # Second instance
 │       └── ...
 └── gitlab.com/
     └── ...

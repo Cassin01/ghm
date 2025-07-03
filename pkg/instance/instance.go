@@ -67,7 +67,7 @@ func FindNextInstance(rootPath, host, owner, name string) (int, error) {
 
 	// Check numbered instances
 	for i := 1; i <= 100; i++ {
-		instancePath := fmt.Sprintf("%s.%d", basePattern, i)
+		instancePath := fmt.Sprintf("%s_%d", basePattern, i)
 		if _, err := os.Stat(instancePath); err == nil {
 			maxInstance = i
 		}
@@ -77,7 +77,7 @@ func FindNextInstance(rootPath, host, owner, name string) (int, error) {
 }
 
 func ParseInstanceFromPath(path string) int {
-	parts := strings.Split(path, ".")
+	parts := strings.Split(path, "_")
 	if len(parts) < 2 {
 		return 0
 	}
