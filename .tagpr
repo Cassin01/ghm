@@ -1,0 +1,21 @@
+# tagpr configuration file
+# see: https://github.com/Songmu/tagpr
+
+[tagpr]
+    # repository's main branch
+    branch = main
+
+    # version file to be updated
+    versionFile = VERSION
+
+    # prefix for version tags (default: v)
+    vPrefix = true
+
+    # release command to run after tagging
+    # command = make release
+
+    # changelog template (optional)
+    # template = CHANGELOG.md
+
+    # merge commit message template
+    # mergeMessage = "Merge pull request #{{ .Number }} from {{ .Head.Label }}\n\n{{ .Title }}"
