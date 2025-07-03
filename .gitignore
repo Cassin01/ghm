@@ -34,7 +34,7 @@ ehthumbs.db
 Thumbs.db
 
 # Built binary
-ghm
+/ghm
 ghm-*
 
 # Test coverage
