@@ -25,11 +25,11 @@ func TestIntegration(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tempRoot)
+	defer func() { _ = os.RemoveAll(tempRoot) }()
 
 	// Set environment variable
-	os.Setenv("GHM_ROOT", tempRoot)
-	defer os.Unsetenv("GHM_ROOT")
+	_ = os.Setenv("GHM_ROOT", tempRoot)
+	defer func() { _ = os.Unsetenv("GHM_ROOT") }()
 
 	t.Run("Root command", func(t *testing.T) {
 		cmd := exec.Command(binaryPath, "root")

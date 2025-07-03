@@ -42,7 +42,7 @@ func TestIsGitRepository(t *testing.T) {
 			if err != nil {
 				t.Fatalf("Failed to create temp dir: %v", err)
 			}
-			defer os.RemoveAll(tempDir)
+			defer func() { _ = os.RemoveAll(tempDir) }()
 
 			testPath := tempDir
 			if tt.name != "Non-existent directory" {
@@ -67,10 +67,10 @@ func TestClone(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to create temp dir: %v", err)
 		}
-		defer os.RemoveAll(tempDir)
+		defer func() { _ = os.RemoveAll(tempDir) }()
 
 		invalidPath := filepath.Join(tempDir, "non-existent-parent", "repo")
-		
+
 		err = Clone("https://invalid-url.com/repo.git", invalidPath)
 		if err == nil {
 			t.Error("Expected error for invalid URL, got nil")
@@ -82,12 +82,12 @@ func TestClone(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Failed to create temp dir: %v", err)
 		}
-		defer os.RemoveAll(tempDir)
+		defer func() { _ = os.RemoveAll(tempDir) }()
 
 		destPath := filepath.Join(tempDir, "test-repo")
-		
-		err = Clone("https://invalid-url.com/repo.git", destPath)
-		
+
+		_ = Clone("https://invalid-url.com/repo.git", destPath)
+
 		if _, statErr := os.Stat(destPath); os.IsNotExist(statErr) {
 			t.Error("Expected destination directory to be created")
 		}

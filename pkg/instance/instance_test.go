@@ -55,10 +55,10 @@ func TestSaveAndLoadInstanceInfo(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 
 	testTime := time.Date(2025, 1, 1, 12, 0, 0, 0, time.UTC)
-	
+
 	info := &InstanceInfo{
 		URL:         "https://github.com/user/repo.git",
 		Instance:    1,
@@ -109,10 +109,10 @@ func TestSaveAndLoadInstanceInfo(t *testing.T) {
 
 	t.Run("Load invalid JSON", func(t *testing.T) {
 		invalidDir := filepath.Join(tempDir, "invalid")
-		os.MkdirAll(invalidDir, 0755)
-		
+		_ = os.MkdirAll(invalidDir, 0755)
+
 		infoPath := filepath.Join(invalidDir, ".ghm")
-		os.WriteFile(infoPath, []byte("invalid json"), 0644)
+		_ = os.WriteFile(infoPath, []byte("invalid json"), 0644)
 
 		loaded, err := LoadInstanceInfo(invalidDir)
 		if err == nil {
@@ -129,7 +129,7 @@ func TestFindNextInstance(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tempDir)
+	defer func() { _ = os.RemoveAll(tempDir) }()
 
 	host := "github.com"
 	owner := "user"
@@ -137,7 +137,7 @@ func TestFindNextInstance(t *testing.T) {
 
 	// Create test directory structure
 	baseDir := filepath.Join(tempDir, host, owner)
-	os.MkdirAll(baseDir, 0755)
+	_ = os.MkdirAll(baseDir, 0755)
 
 	t.Run("No existing instances", func(t *testing.T) {
 		next, err := FindNextInstance(tempDir, host, owner, name)
@@ -151,7 +151,7 @@ func TestFindNextInstance(t *testing.T) {
 
 	t.Run("With existing main instance", func(t *testing.T) {
 		mainDir := filepath.Join(baseDir, name)
-		os.MkdirAll(mainDir, 0755)
+		_ = os.MkdirAll(mainDir, 0755)
 
 		next, err := FindNextInstance(tempDir, host, owner, name)
 		if err != nil {
@@ -166,8 +166,8 @@ func TestFindNextInstance(t *testing.T) {
 		// Create instance 1 and 2
 		instance1Dir := filepath.Join(baseDir, name+".1")
 		instance2Dir := filepath.Join(baseDir, name+".2")
-		os.MkdirAll(instance1Dir, 0755)
-		os.MkdirAll(instance2Dir, 0755)
+		_ = os.MkdirAll(instance1Dir, 0755)
+		_ = os.MkdirAll(instance2Dir, 0755)
 
 		next, err := FindNextInstance(tempDir, host, owner, name)
 		if err != nil {

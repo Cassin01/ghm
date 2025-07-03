@@ -12,20 +12,20 @@ func TestNew(t *testing.T) {
 	if cfg.DefaultProtocol != "https" {
 		t.Errorf("Expected default protocol to be https, got %s", cfg.DefaultProtocol)
 	}
-	
+
 	// Test with GHM_ROOT environment variable
 	originalRoot := os.Getenv("GHM_ROOT")
 	defer func() {
 		if originalRoot != "" {
-			os.Setenv("GHM_ROOT", originalRoot)
+			_ = os.Setenv("GHM_ROOT", originalRoot)
 		} else {
-			os.Unsetenv("GHM_ROOT")
+			_ = os.Unsetenv("GHM_ROOT")
 		}
 	}()
-	
+
 	testRoot := "/tmp/test-ghm"
-	os.Setenv("GHM_ROOT", testRoot)
-	
+	_ = os.Setenv("GHM_ROOT", testRoot)
+
 	cfg = New()
 	if cfg.Root != testRoot {
 		t.Errorf("Expected root to be %s, got %s", testRoot, cfg.Root)
@@ -37,14 +37,14 @@ func TestGetDefaultRoot(t *testing.T) {
 	originalRoot := os.Getenv("GHM_ROOT")
 	defer func() {
 		if originalRoot != "" {
-			os.Setenv("GHM_ROOT", originalRoot)
+			_ = os.Setenv("GHM_ROOT", originalRoot)
 		} else {
-			os.Unsetenv("GHM_ROOT")
+			_ = os.Unsetenv("GHM_ROOT")
 		}
 	}()
-	
-	os.Unsetenv("GHM_ROOT")
-	
+
+	_ = os.Unsetenv("GHM_ROOT")
+
 	root := getDefaultRoot()
 	home, err := os.UserHomeDir()
 	if err != nil {
