@@ -13,6 +13,7 @@ import (
 
 func listCommand(c *cli.Context, cfg *config.Config) error {
 	pattern := c.Args().Get(0)
+	showBranch := c.Bool("branch")
 
 	repositories, err := findRepositories(cfg.Root, pattern)
 	if err != nil {
@@ -20,7 +21,16 @@ func listCommand(c *cli.Context, cfg *config.Config) error {
 	}
 
 	for _, repo := range repositories {
-		fmt.Println(repo)
+		if showBranch {
+			branch, err := git.GetCurrentBranch(filepath.Join(cfg.Root, repo))
+			if err != nil {
+				fmt.Printf("%s [N/A]\n", repo)
+			} else {
+				fmt.Printf("%s [%s]\n", repo, branch)
+			}
+		} else {
+			fmt.Println(repo)
+		}
 	}
 
 	return nil

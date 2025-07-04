@@ -11,17 +11,17 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
- 
+
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    
+
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
         go-version: '1.23'
-    
+
     - name: Cache Go modules
       uses: actions/cache@v4
       with:
@@ -31,35 +31,35 @@ jobs:
         key: ${{ runner.os }}-go-1.23-${{ hashFiles('**/go.sum') }}
         restore-keys: |
           ${{ runner.os }}-go-1.23-
-    
+
     - name: Download dependencies
       run: go mod download
-    
+
     - name: Run tests
       run: go test -v ./...
-    
+
     - name: Build binaries
       run: |
         # Linux amd64
         GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o ghm-linux-amd64 ./cmd/ghm
-        
+
         # Linux arm64
         GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o ghm-linux-arm64 ./cmd/ghm
-        
+
         # macOS amd64
         GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o ghm-darwin-amd64 ./cmd/ghm
-        
+
         # macOS arm64
         GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o ghm-darwin-arm64 ./cmd/ghm
-    
+
     - name: Create archives
       run: |
         # Linux amd64
         tar -czf ghm-linux-amd64.tar.gz ghm-linux-amd64
-        
+
         # Linux arm64
         tar -czf ghm-linux-arm64.tar.gz ghm-linux-arm64
-        
+
         # macOS amd64
         tar -czf ghm-darwin-amd64.tar.gz ghm-darwin-amd64
 
@@ -93,16 +93,16 @@ jobs:
           checksums.txt
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
     - name: Update Homebrew Formula
       run: |
-        if [ -z "${{ secrets.HOMEBREW_TAP_TOKEN }}" ]; then
+        if [ -z "${HOMEBREW_TAP_TOKEN}" ]; then
           echo "⚠️ HOMEBREW_TAP_TOKEN not set. Skipping Homebrew formula update."
           echo "ℹ️ To enable automatic Homebrew updates, please set up HOMEBREW_TAP_TOKEN secret."
           echo "ℹ️ See HOMEBREW_SETUP.md for detailed instructions."
           exit 0
         fi
-        
+
         echo "🍺 Updating Homebrew formula..."
         chmod +x scripts/update-homebrew.sh
         git config --global user.name "github-actions[bot]"
